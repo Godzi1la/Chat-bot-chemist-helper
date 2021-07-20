@@ -1,0 +1,78 @@
+import wikipedia
+import telebot
+from telebot.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, \
+    InlineKeyboardButton
+
+bot = telebot.TeleBot('1882007869:AAF_hS31YzgcHC1evL-xV82HW2o8W49WXEQ')
+
+list_users_how_use = []
+wikipedia.set_lang("ru")
+
+
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+    text = message.text
+    if not message.from_user.id in list_users_how_use:
+        list_users_how_use.append(message.from_user.id)
+    elif text == '/start':
+        bot.send_message(message.chat.id, "Привет! Выбери щелочной металл", reply_markup=markup)
+    elif text == '/chem_Li':
+        wp = wikipedia.page("Литий")
+        res = wp.content
+        i = 0
+        while not (res[i] == '\n' and res[i - 1] == '\n'):
+            i += 1
+        res = res[:i]
+
+        bot.send_message(
+            message.chat.id, res)
+    elif text == '/chem_Na':
+        wp = wikipedia.page("Натрий")
+        res = wp.content
+        i = 0
+        while not (res[i] == '\n' and res[i - 1] == '\n'):
+            i += 1
+        res = res[:i]
+
+        bot.send_message(
+            message.chat.id, res)
+
+    elif text == '/chem_K':
+        wp = wikipedia.page("Калий")
+        res = wp.content
+        i = 0
+        while not (res[i] == '\n' and res[i - 1] == '\n'):
+            i += 1
+        res = res[:i]
+
+        bot.send_message(
+            message.chat.id, res)
+
+    elif text == '/chem_Rb':
+        wp = wikipedia.page("Рубидий")
+        res = wp.content
+        i = 0
+        while not (res[i] == '\n' and res[i - 1] == '\n'):
+            i += 1
+        res = res[:i]
+
+        bot.send_message(
+            message.chat.id, res)
+    elif text == '/chem_Cs':
+        wp = wikipedia.page("Цезий")
+        res = wp.content
+        i = 0
+        while not (res[i] == '\n' and res[i - 1] == '\n'):
+            i += 1
+        res = res[:i]
+        bot.send_message(
+            message.chat.id, res)
+    else:
+        bot.send_message(message.chat.id, "Шо це таке", reply_markup=markup)
+
+markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+markup.add(KeyboardButton('/chem_Li'), KeyboardButton('/chem_Na'),
+               KeyboardButton('/chem_K'), KeyboardButton('/chem_Rb'), KeyboardButton('/chem_Cs'))
+
+bot.polling(none_stop=True, interval=0)
+
